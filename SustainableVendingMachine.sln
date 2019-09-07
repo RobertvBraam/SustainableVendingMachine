@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SustainableVendingMachine.Domain", "src\SustainableVendingMachine.Domain\SustainableVendingMachine.Domain.csproj", "{AECA672E-7A49-4E31-A223-CAC0D27916D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{27B47508-7239-45E4-ACAC-59FC581E85D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tst", "tst", "{1F8CD81D-889D-43C4-B261-D41B81359240}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SustainableVendingMachine.Domain.Tests", "tst\SustainableVendingMachine.Domain.Tests\SustainableVendingMachine.Domain.Tests.csproj", "{C1331D57-66D5-477C-ADA8-B747E576BB32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,10 @@ Global
 		{AECA672E-7A49-4E31-A223-CAC0D27916D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AECA672E-7A49-4E31-A223-CAC0D27916D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AECA672E-7A49-4E31-A223-CAC0D27916D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1331D57-66D5-477C-ADA8-B747E576BB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1331D57-66D5-477C-ADA8-B747E576BB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1331D57-66D5-477C-ADA8-B747E576BB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1331D57-66D5-477C-ADA8-B747E576BB32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
