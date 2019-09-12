@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Sustainable Vending Machine</h1>
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                Throw in a coin <input type="text" id="customerInput" />
+                <br />
+                Message...<input type="text" id="messageInput" />
+                <input type="button" id="sendButton" value="Send Message" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                <ul id="messagesList"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/vendingMachine.js"></script>
