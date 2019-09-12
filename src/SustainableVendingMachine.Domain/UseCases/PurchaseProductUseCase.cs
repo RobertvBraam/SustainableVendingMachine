@@ -1,5 +1,4 @@
-﻿using SustainableVendingMachine.Domain.Enitity;
-using SustainableVendingMachine.Domain.UseCases.Result;
+﻿using SustainableVendingMachine.Domain.Enitities;
 using SustainableVendingMachine.Domain.UseCases.Results;
 
 namespace SustainableVendingMachine.Domain.UseCases
@@ -13,12 +12,12 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public CancelPurchaseResult CancelPurchase()
         {
-            return new CancelPurchaseResult();
+            return new CancelPurchaseResult("Purchase is canceled");
         }
 
-        public PurchaseProductResult PurchaseProduct()
+        public PurchaseProductResult PurchaseProduct(Product product)
         {
-            return new PurchaseProductResult();
+            return new PurchaseProductResult($"Purchased product: {product}");
         }
     }
 }

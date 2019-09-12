@@ -1,16 +1,9 @@
-﻿namespace SustainableVendingMachine.Domain.UseCases.Result
+﻿namespace SustainableVendingMachine.Domain.UseCases.Results
 {
-    public class InsertCoinResult
+    public class InsertCoinResult : Result
     {
-        private readonly bool _isSuccessful;
-
-        public InsertCoinResult(string message, bool isSuccessful = true)
+        public InsertCoinResult(string message, bool isSuccessful = true) : base(message, isSuccessful)
         {
-            Message = message;
-            _isSuccessful = isSuccessful;
         }
-
-        public bool HasFailed => !_isSuccessful;
-        public string Message { get; }
     }
 }
