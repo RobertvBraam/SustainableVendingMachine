@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SustainableVendingMachine.Domain.Enitity
+namespace SustainableVendingMachine.Domain.Enitities
 {
     public class Purchase
     {

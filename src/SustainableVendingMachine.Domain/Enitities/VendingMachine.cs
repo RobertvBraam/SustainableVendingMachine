@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-
-namespace SustainableVendingMachine.Domain.Enitity
+﻿namespace SustainableVendingMachine.Domain.Enitities
 {
     public class VendingMachine
     {

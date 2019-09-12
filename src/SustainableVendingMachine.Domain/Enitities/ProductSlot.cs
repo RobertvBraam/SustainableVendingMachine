@@ -1,4 +1,4 @@
-﻿namespace SustainableVendingMachine.Domain.Enitity
+﻿namespace SustainableVendingMachine.Domain.Enitities
 {
     public class ProductSlot
     {
