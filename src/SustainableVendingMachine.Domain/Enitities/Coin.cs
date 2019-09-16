@@ -2,9 +2,9 @@
 {
     public enum Coin
     {
-        TenCent,
-        TwentyCent,
-        FiftyCent,
-        OneEuro
+        TenCent = 10,
+        TwentyCent = 20,
+        FiftyCent = 50,
+        OneEuro = 100
     }
 }

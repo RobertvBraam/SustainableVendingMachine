@@ -5,9 +5,18 @@ namespace SustainableVendingMachine.Domain.UseCases
 {
     public class PurchaseProductUseCase
     {
+        private readonly VendingMachine _vendingMachine;
+
+        public PurchaseProductUseCase(VendingMachine vendingMachine)
+        {
+            _vendingMachine = vendingMachine;
+        }
+
         public InsertCoinResult InsertCoin(Coin coin)
         {
-            return new InsertCoinResult($"Coin has been added to the payment: {coin}");
+            var currentAmount = _vendingMachine.InsertCoin(coin);
+
+            return new InsertCoinResult($"Coin has been added to the payment: {coin}", currentAmount);
         }
 
         public CancelPurchaseResult CancelPurchase()

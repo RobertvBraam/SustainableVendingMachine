@@ -2,7 +2,13 @@
 {
     public class CoinSlot
     {
-        public Coin Coin { get; set; }
+        public CoinSlot(Coin coin)
+        {
+            Coin = coin;
+            Amount = 1;
+        }
+
+        public Coin Coin { get; }
         public int Amount { get; set; }
     }
 }
