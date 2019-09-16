@@ -2,9 +2,9 @@
 {
     public enum Product
     {
-        Tea,
-        Espresso,
-        Juice,
-        ChickenSoup
+        Tea = 130,
+        Espresso = 180,
+        Juice = 180,
+        ChickenSoup = 180
     }
 }

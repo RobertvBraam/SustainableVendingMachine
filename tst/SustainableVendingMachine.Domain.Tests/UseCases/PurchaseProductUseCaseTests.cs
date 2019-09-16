@@ -68,8 +68,8 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         public void PurchaseProduct_When_ChickenSoupProductPurchased_Then_ReturnSuccess()
         {
             //Arrange
+            var product = Product.ChickenSoup;
             var vendingMachine = new VendingMachine();
-            var coin = Product.ChickenSoup;
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -94,7 +94,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         }
 
         [Fact]
-        public void CancelPurchase_When_TenCentAddedAndPurchaseCanceled_Then_ReturnSuccess()
+        public void CancelPurchase_When_TenCentCoinAddedAndPurchaseCanceled_Then_ReturnSuccess()
         {
             //Arrange
             var coin = Coin.TwentyCent;
@@ -112,7 +112,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         }
 
         [Fact]
-        public void CancelPurchase_When_TwoTenCentsAddedAndPurchaseCanceled_Then_ReturnSuccess()
+        public void CancelPurchase_When_TwoTenCentCoinsAddedAndPurchaseCanceled_Then_ReturnSuccess()
         {
             //Arrange
             var coin = Coin.TwentyCent;
