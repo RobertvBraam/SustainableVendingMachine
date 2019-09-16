@@ -5,9 +5,9 @@ namespace SustainableVendingMachine.Domain.Enitities
 {
     public class VendingMachine
     {
-        public Inventory Inventory { get; set; } = new Inventory();
+        public List<ProductSlot> Inventory { get; set; } = new List<ProductSlot>();
         public Purse Purse { get; set; } = new Purse();
-        public Purchase CurrentPurchase { get; set; } = new Purchase();
+        public List<CoinSlot> CurrentPurchase { get; set; } = new List<CoinSlot>();
 
         public bool InsertCoin(Coin coin)
         {
@@ -18,11 +18,11 @@ namespace SustainableVendingMachine.Domain.Enitities
                 return false;
             }
 
-            var existingSlot = CurrentPurchase.InsertedCoins.SingleOrDefault(slot => slot.Coin == coin);
+            var existingSlot = CurrentPurchase.SingleOrDefault(slot => slot.Coin == coin);
 
             if (existingSlot is null)
             {
-                CurrentPurchase.InsertedCoins.Add(new CoinSlot(coin));
+                CurrentPurchase.Add(new CoinSlot(coin));
             }
             else
             {
@@ -36,7 +36,7 @@ namespace SustainableVendingMachine.Domain.Enitities
         {
             decimal result = 0;
 
-            foreach (var insertedCoin in CurrentPurchase.InsertedCoins)
+            foreach (var insertedCoin in CurrentPurchase)
             {
                 var amount = insertedCoin.Amount * ConvertCoinToEuros(insertedCoin.Coin);
                 result = amount + result;
@@ -51,7 +51,7 @@ namespace SustainableVendingMachine.Domain.Enitities
         {
             var result = new List<Coin>();
 
-            foreach (var insertedCoin in CurrentPurchase.InsertedCoins)
+            foreach (var insertedCoin in CurrentPurchase)
             {
                 for (int i = 0; i < insertedCoin.Amount; i++)
                 {
