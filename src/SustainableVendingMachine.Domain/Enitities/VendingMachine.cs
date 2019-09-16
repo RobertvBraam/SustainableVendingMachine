@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SustainableVendingMachine.Domain.Enitities
 {
@@ -45,5 +46,20 @@ namespace SustainableVendingMachine.Domain.Enitities
         }
 
         private decimal ConvertCoinToEuros(Coin coin) => (int) coin / 100m;
+
+        public List<Coin> ReturnCoinsFromPayment()
+        {
+            var result = new List<Coin>();
+
+            foreach (var insertedCoin in CurrentPurchase.InsertedCoins)
+            {
+                for (int i = 0; i < insertedCoin.Amount; i++)
+                {
+                    result.Add(insertedCoin.Coin);
+                }
+            }
+
+            return result;
+        }
     }
 }

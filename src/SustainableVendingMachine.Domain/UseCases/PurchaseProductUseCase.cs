@@ -22,7 +22,9 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public CancelPurchaseResult CancelPurchase()
         {
-            return new CancelPurchaseResult("Purchase is canceled");
+            var coinsReturned = _vendingMachine.ReturnCoinsFromPayment();
+
+            return new CancelPurchaseResult("Purchase has been canceled", coinsReturned);
         }
 
         public PurchaseProductResult PurchaseProduct(Product product)

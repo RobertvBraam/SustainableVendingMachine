@@ -93,5 +93,41 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             actual.HasFailed.Should().BeFalse();
         }
 
+        [Fact]
+        public void CancelPurchase_When_TenCentAddedAndPurchaseCanceled_Then_ReturnSuccess()
+        {
+            //Arrange
+            var coin = Coin.TwentyCent;
+            var coinsReturned = new List<Coin> { coin };
+            var vendingMachine = new VendingMachine();
+            var sut = new PurchaseProductUseCase(vendingMachine);
+
+            //Act
+            sut.InsertCoin(coin);
+            var actual = sut.CancelPurchase();
+
+            //Assert
+            actual.HasFailed.Should().BeFalse();
+            actual.CoinsReturned.Should().BeEquivalentTo(coinsReturned);
+        }
+
+        [Fact]
+        public void CancelPurchase_When_TwoTenCentsAddedAndPurchaseCanceled_Then_ReturnSuccess()
+        {
+            //Arrange
+            var coin = Coin.TwentyCent;
+            var coinsReturned = new List<Coin> { coin, coin };
+            var vendingMachine = new VendingMachine();
+            var sut = new PurchaseProductUseCase(vendingMachine);
+
+            //Act
+            sut.InsertCoin(coin);
+            sut.InsertCoin(coin);
+            var actual = sut.CancelPurchase();
+
+            //Assert
+            actual.HasFailed.Should().BeFalse();
+            actual.CoinsReturned.Should().BeEquivalentTo(coinsReturned);
+        }
     }
 }
