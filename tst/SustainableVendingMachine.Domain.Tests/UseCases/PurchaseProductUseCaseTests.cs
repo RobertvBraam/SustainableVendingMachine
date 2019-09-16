@@ -46,6 +46,25 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         }
 
         [Fact]
+        public void InsertCoin_When_ThreeOneEuroCoinInserted_Then_ReturnSuccess()
+        {
+            //Arrange
+            decimal expectedCurrentAmount = 2.00m;
+            var vendingMachine = new VendingMachine();
+            var coin = Coin.OneEuro;
+            var sut = new PurchaseProductUseCase(vendingMachine);
+            
+            //Act
+            sut.InsertCoin(coin);
+            sut.InsertCoin(coin);
+            var actual = sut.InsertCoin(coin);
+
+            //Assert
+            actual.HasFailed.Should().BeTrue();
+            actual.CurrentAmount.Should().Be(expectedCurrentAmount);
+        }
+
+        [Fact]
         public void PurchaseProduct_When_ChickenSoupProductPurchased_Then_ReturnSuccess()
         {
             //Arrange

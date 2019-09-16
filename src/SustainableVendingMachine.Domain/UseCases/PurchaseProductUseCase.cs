@@ -14,9 +14,10 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public InsertCoinResult InsertCoin(Coin coin)
         {
-            var currentAmount = _vendingMachine.InsertCoin(coin);
+            var coinInsertionSuccessful = _vendingMachine.InsertCoin(coin);
+            var currentAmount = _vendingMachine.GetAmount();
 
-            return new InsertCoinResult($"Coin has been added to the payment: {coin}", currentAmount);
+            return new InsertCoinResult($"Coin processed in the payment: {coin}", currentAmount, coinInsertionSuccessful);
         }
 
         public CancelPurchaseResult CancelPurchase()
