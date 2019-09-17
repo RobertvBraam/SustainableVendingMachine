@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SustainableVendingMachine.Domain.UseCases.Results
+﻿namespace SustainableVendingMachine.Domain.UseCases.Results
 {
     public class Result
     {
