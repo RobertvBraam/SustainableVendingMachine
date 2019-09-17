@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SustainableVendingMachine.Domain.Enitities
@@ -12,7 +13,7 @@ namespace SustainableVendingMachine.Domain.Enitities
         public VendingMachine(List<ProductSlot> inventory, List<CoinSlot> purse)
         {
             _inventory = inventory;
-            _purse = purse;
+            _purse = purse.OrderByDescending(coin => coin.Amount).ToList();
         }
         
         public bool InsertCoin(Coin coin)
@@ -80,6 +81,46 @@ namespace SustainableVendingMachine.Domain.Enitities
             productAvailable.Amount--;
 
             return new ProductSlot(productToCheck);
+        }
+
+        public bool CheckSufficientCoinsToReturn(decimal productPrice)
+        {
+            var coinsAvailable = _purse.ToList();
+            var amountToReturn = GetAmount() - productPrice;
+
+            (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
+
+            return result.leftoverMoney == 0;
+        }
+
+        private (List<Coin> coinsToReturn, decimal leftoverMoney) calculateCoinsReturned(List<CoinSlot> coinsAvailable, decimal amountToReturn)
+        {
+            var coinsToReturn = new List<Coin>();
+            var coinSlot = coinsAvailable.FirstOrDefault();
+
+            if (coinSlot == null)
+            {
+                return (coinsToReturn, amountToReturn);
+            }
+
+            for (var i = 0; i < coinSlot.Amount; i++)
+            {
+                if (amountToReturn - coinSlot.Value >= 0)
+                {
+                    coinSlot.Amount--;
+                    amountToReturn -= coinSlot.Value;
+                    coinsToReturn.Add(coinSlot.Coin);
+                }
+                else
+                {
+                    coinsAvailable.RemoveAt(0);
+                    var result = calculateCoinsReturned(coinsAvailable.ToList(), amountToReturn);
+                    coinsToReturn.AddRange(result.coinsToReturn);
+                }
+
+            }
+
+            return (coinsToReturn, amountToReturn);
         }
     }
 }

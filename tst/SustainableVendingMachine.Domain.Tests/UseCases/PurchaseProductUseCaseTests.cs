@@ -76,9 +76,15 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.OneEuro;
             var product = Product.ChickenSoup;
-            var coinReturned = new List<Coin> { Coin.TwentyCent };
-            var productSlots = new List<ProductSlot>();
-            var purse = new List<CoinSlot>();
+            //var coinReturned = new List<Coin> { Coin.TwentyCent };
+            var productSlots = new List<ProductSlot>
+            {
+                new ProductSlot(Product.ChickenSoup)
+            };
+            var purse = new List<CoinSlot>
+            {
+                new CoinSlot(Coin.TwentyCent)
+            };
             var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
@@ -90,7 +96,33 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Assert
             actual.HasFailed.Should().BeFalse();
             actual.ProductPurchased.Should().Be(product);
-            actual.CoinsReturned.Should().BeEquivalentTo(coinReturned);
+            //actual.CoinsReturned.Should().BeEquivalentTo(coinReturned);
+        }
+
+        [Fact]
+        public void PurchaseProduct_When_OneEuroCoinsAddedChickenSoupProductPurchased_Then_ReturnFailed()
+        {
+            //Arrange
+            var coin = Coin.OneEuro;
+            var product = Product.ChickenSoup;
+            var productSlots = new List<ProductSlot>
+            {
+                new ProductSlot(Product.ChickenSoup)
+            };
+            var purse = new List<CoinSlot>
+            {
+                new CoinSlot(Coin.TwentyCent)
+            };
+            var vendingMachine = new VendingMachine(productSlots, purse);
+            var sut = new PurchaseProductUseCase(vendingMachine);
+
+            //Act
+            sut.InsertCoin(coin);
+            var actual = sut.PurchaseProduct(product);
+
+            //Assert
+            actual.HasFailed.Should().BeTrue();
+            actual.ProductPurchased.Should().Be(product);
         }
 
         [Fact]

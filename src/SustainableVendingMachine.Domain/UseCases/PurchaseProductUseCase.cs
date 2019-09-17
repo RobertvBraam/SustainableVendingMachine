@@ -36,6 +36,14 @@ namespace SustainableVendingMachine.Domain.UseCases
                 return new PurchaseProductResult($"Product not available: {product}", product);
             }
 
+            var suffienctCoins = _vendingMachine.CheckSufficientCoinsToReturn(availableProduct.Price);
+
+            if (suffienctCoins)
+            {
+                return new PurchaseProductResult($"Purchased product: {product}", product, true);
+            }
+
+            return new PurchaseProductResult($"Insufficient coins for product: {product}", product);
         }
     }
 }

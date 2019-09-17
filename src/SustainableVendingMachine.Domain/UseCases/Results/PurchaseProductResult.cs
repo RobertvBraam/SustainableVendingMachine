@@ -13,5 +13,11 @@ namespace SustainableVendingMachine.Domain.UseCases.Results
             ProductPurchased = productPurchased;
             CoinsReturned = coinsReturned;
         }
+        
+        public PurchaseProductResult(string message, Product productPurchased, bool isSuccessful = false) : base(message, isSuccessful)
+        {
+            ProductPurchased = productPurchased;
+            CoinsReturned = new List<Coin>();
+        }
     }
 }
