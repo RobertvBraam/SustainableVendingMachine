@@ -40,7 +40,11 @@ namespace SustainableVendingMachine.Domain.UseCases
 
             if (suffienctCoins)
             {
-                return new PurchaseProductResult($"Purchased product: {product}", product, true);
+                _vendingMachine.ExcecutePayment(availableProduct.Price);
+                
+                var coinsReturned = _vendingMachine.ReturnCoinsFromPayment();
+
+                return new PurchaseProductResult($"Purchased product: {product}", product, coinsReturned);
             }
 
             return new PurchaseProductResult($"Insufficient coins for product: {product}", product);

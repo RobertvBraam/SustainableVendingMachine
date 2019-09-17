@@ -67,8 +67,6 @@ namespace SustainableVendingMachine.Domain.Enitities
             return result;
         }
 
-        private decimal ConvertCoinToEuros(Coin coin) => (int)coin / 100m;
-
         public ProductSlot CheckProductAvailability(Product productToCheck)
         {
             var productAvailable = _inventory.SingleOrDefault(product => product.Product == productToCheck);
@@ -85,12 +83,38 @@ namespace SustainableVendingMachine.Domain.Enitities
 
         public bool CheckSufficientCoinsToReturn(decimal productPrice)
         {
-            var coinsAvailable = _purse.ToList();
+            var coinsAvailable = DeepCopyPurse();
             var amountToReturn = GetAmount() - productPrice;
 
             (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
 
             return result.leftoverMoney == 0;
+        }
+
+        public void ExcecutePayment(decimal productPrice)
+        {
+            var coinsAvailable = DeepCopyPurse();
+            var amountToReturn = GetAmount() - productPrice;
+
+            (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
+
+            _currentPurchase.Clear();
+
+            foreach (var coin in result.coinsToReturn)
+            {
+                var coinSlot = _purse.Single(slot => slot.Coin == coin);
+
+                if (coinSlot.Amount == 1)
+                {
+                    _purse.Remove(coinSlot);
+                }
+                else
+                {
+                    coinSlot.Amount--;
+                }
+
+                InsertCoin(coinSlot.Coin);
+            }
         }
 
         private (List<Coin> coinsToReturn, decimal leftoverMoney) calculateCoinsReturned(List<CoinSlot> coinsAvailable, decimal amountToReturn)
@@ -117,10 +141,12 @@ namespace SustainableVendingMachine.Domain.Enitities
                     var result = calculateCoinsReturned(coinsAvailable.ToList(), amountToReturn);
                     coinsToReturn.AddRange(result.coinsToReturn);
                 }
-
             }
 
             return (coinsToReturn, amountToReturn);
         }
+
+        private decimal ConvertCoinToEuros(Coin coin) => (int)coin / 100m;
+        private List<CoinSlot> DeepCopyPurse() => _purse.ConvertAll(slot => new CoinSlot(slot.Coin, slot.Amount));
     }
 }
