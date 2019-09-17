@@ -44,7 +44,7 @@ namespace SustainableVendingMachine.Domain.Enitities
 
             foreach (var insertedCoin in _currentPurchase)
             {
-                var amount = insertedCoin.Amount * ConvertCoinToEuros(insertedCoin.Coin);
+                var amount = insertedCoin.Amount * insertedCoin.Value;
                 result = amount + result;
             }
 

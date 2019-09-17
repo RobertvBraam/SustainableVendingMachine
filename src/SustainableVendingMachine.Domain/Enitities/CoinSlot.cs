@@ -2,13 +2,14 @@
 {
     public class CoinSlot
     {
-        public CoinSlot(Coin coin)
+        public CoinSlot(Coin coin, int amount = 1)
         {
             Coin = coin;
-            Amount = 1;
+            Amount = amount;
         }
 
         public Coin Coin { get; }
         public int Amount { get; set; }
+        public decimal Value => (int) Coin / 100m;
     }
 }
