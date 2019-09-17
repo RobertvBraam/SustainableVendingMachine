@@ -15,7 +15,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             decimal expectedCurrentAmount = 0.50m;
-            var vendingMachine = new VendingMachine();
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var coin = Coin.FiftyCent;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
@@ -32,7 +34,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             decimal expectedCurrentAmount = 1.00m;
-            var vendingMachine = new VendingMachine();
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var coin = Coin.FiftyCent;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
@@ -50,7 +54,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             decimal expectedCurrentAmount = 2.00m;
-            var vendingMachine = new VendingMachine();
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var coin = Coin.OneEuro;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
@@ -69,7 +75,10 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var product = Product.ChickenSoup;
-            var vendingMachine = new VendingMachine();
+            var coinReturned = new List<Coin> { Coin.TwentyCent };
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -83,7 +92,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         public void CancelPurchase_When_PurchaseCanceled_Then_ReturnSuccess()
         {
             //Arrange
-            var vendingMachine = new VendingMachine();
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -99,7 +110,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.TwentyCent;
             var coinsReturned = new List<Coin> { coin };
-            var vendingMachine = new VendingMachine();
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -117,7 +130,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.TwentyCent;
             var coinsReturned = new List<Coin> { coin, coin };
-            var vendingMachine = new VendingMachine();
+            var productSlots = new List<ProductSlot>();
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act

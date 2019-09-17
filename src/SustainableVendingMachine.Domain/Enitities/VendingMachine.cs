@@ -5,10 +5,16 @@ namespace SustainableVendingMachine.Domain.Enitities
 {
     public class VendingMachine
     {
-        public List<ProductSlot> Inventory { get; set; } = new List<ProductSlot>();
-        public Purse Purse { get; set; } = new Purse();
-        public List<CoinSlot> CurrentPurchase { get; set; } = new List<CoinSlot>();
+        private readonly List<ProductSlot> _inventory;
+        private readonly List<CoinSlot> _purse;
+        private readonly List<CoinSlot> _currentPurchase = new List<CoinSlot>();
 
+        public VendingMachine(List<ProductSlot> inventory, List<CoinSlot> purse)
+        {
+            _inventory = inventory;
+            _purse = purse;
+        }
+        
         public bool InsertCoin(Coin coin)
         {
             var maximumAmountOfCoins = GetAmount() + ConvertCoinToEuros(coin);
@@ -18,11 +24,11 @@ namespace SustainableVendingMachine.Domain.Enitities
                 return false;
             }
 
-            var existingSlot = CurrentPurchase.SingleOrDefault(slot => slot.Coin == coin);
+            var existingSlot = _currentPurchase.SingleOrDefault(slot => slot.Coin == coin);
 
             if (existingSlot is null)
             {
-                CurrentPurchase.Add(new CoinSlot(coin));
+                _currentPurchase.Add(new CoinSlot(coin));
             }
             else
             {
@@ -36,7 +42,7 @@ namespace SustainableVendingMachine.Domain.Enitities
         {
             decimal result = 0;
 
-            foreach (var insertedCoin in CurrentPurchase)
+            foreach (var insertedCoin in _currentPurchase)
             {
                 var amount = insertedCoin.Amount * ConvertCoinToEuros(insertedCoin.Coin);
                 result = amount + result;
@@ -45,13 +51,11 @@ namespace SustainableVendingMachine.Domain.Enitities
             return result;
         }
 
-        private decimal ConvertCoinToEuros(Coin coin) => (int) coin / 100m;
-
         public List<Coin> ReturnCoinsFromPayment()
         {
             var result = new List<Coin>();
 
-            foreach (var insertedCoin in CurrentPurchase)
+            foreach (var insertedCoin in _currentPurchase)
             {
                 for (int i = 0; i < insertedCoin.Amount; i++)
                 {
@@ -61,5 +65,7 @@ namespace SustainableVendingMachine.Domain.Enitities
 
             return result;
         }
+
+        private decimal ConvertCoinToEuros(Coin coin) => (int)coin / 100m;
     }
 }
