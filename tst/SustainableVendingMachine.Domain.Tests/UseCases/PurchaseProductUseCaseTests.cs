@@ -71,9 +71,10 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         }
 
         [Fact]
-        public void PurchaseProduct_When_ChickenSoupProductPurchased_Then_ReturnSuccess()
+        public void PurchaseProduct_When_TwoOneEuroCoinsAddedChickenSoupProductPurchased_Then_ReturnSuccess()
         {
             //Arrange
+            var coin = Coin.OneEuro;
             var product = Product.ChickenSoup;
             var coinReturned = new List<Coin> { Coin.TwentyCent };
             var productSlots = new List<ProductSlot>();
@@ -82,10 +83,14 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
-            var actual = sut.PurchaseProduct(coin);
+            sut.InsertCoin(coin);
+            sut.InsertCoin(coin);
+            var actual = sut.PurchaseProduct(product);
 
             //Assert
             actual.HasFailed.Should().BeFalse();
+            actual.ProductPurchased.Should().Be(product);
+            actual.CoinsReturned.Should().BeEquivalentTo(coinReturned);
         }
 
         [Fact]

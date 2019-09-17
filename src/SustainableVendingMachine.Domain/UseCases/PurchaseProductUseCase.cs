@@ -29,7 +29,13 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public PurchaseProductResult PurchaseProduct(Product product)
         {
-            return new PurchaseProductResult($"Purchased product: {product}");
+            var availableProduct = _vendingMachine.CheckProductAvailability(product);
+
+            if (availableProduct.Amount == 0)
+            {
+                return new PurchaseProductResult($"Product not available: {product}", product);
+            }
+
         }
     }
 }

@@ -67,5 +67,19 @@ namespace SustainableVendingMachine.Domain.Enitities
         }
 
         private decimal ConvertCoinToEuros(Coin coin) => (int)coin / 100m;
+
+        public ProductSlot CheckProductAvailability(Product productToCheck)
+        {
+            var productAvailable = _inventory.SingleOrDefault(product => product.Product == productToCheck);
+
+            if (productAvailable is null)
+            {
+                return new ProductSlotUnavailable(productToCheck);
+            }
+
+            productAvailable.Amount--;
+
+            return new ProductSlot(productToCheck);
+        }
     }
 }
