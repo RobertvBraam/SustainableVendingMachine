@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SustainableVendingMachine.Domain.Enitities;
+using SustainableVendingMachine.Domain.Enitities.Products;
 using SustainableVendingMachine.Domain.UseCases;
 using SustainableVendingMachine.Host.Web.Hubs;
 
@@ -36,7 +37,23 @@ namespace SustainableVendingMachine.Host.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
             services.AddScoped<PurchaseProductUseCase>();
-            services.AddSingleton(new VendingMachine(new List<ProductSlot>(), new List<CoinSlot>()));
+
+            var inventory = new List<ProductSlot>
+            {
+                new ProductSlot(new TeaProduct(), 10),
+                new ProductSlot(new EspressoProduct(), 20),
+                new ProductSlot(new JuiceProduct(), 20),
+                new ProductSlot(new ChickenSoupProduct(), 15)
+            };
+            var purse = new List<CoinSlot>
+            {
+                new CoinSlot(Coin.TenCent, 100),
+                new CoinSlot(Coin.TwentyCent, 100),
+                new CoinSlot(Coin.FiftyCent, 100),
+                new CoinSlot(Coin.OneEuro, 100)
+            };
+
+            services.AddSingleton(new VendingMachine(inventory, purse));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
