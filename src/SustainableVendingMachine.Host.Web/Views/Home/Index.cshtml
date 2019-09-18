@@ -3,29 +3,39 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to Sustainable Vending Machine</h1>
+    <h1>Welcome to Sustainable Vending Machine</h1>
 
     <div class="container">
-        <div class="row">&nbsp;</div>
         <div class="row">
-            <div class="col-6">&nbsp;</div>
             <div class="col-6">
-                Throw in a Coin:
+                <h2>Throw in a Coin</h2>
+            </div>
+            <div class="col-6">
                 <input class="coinBtn" type="button" id="tenCentCoin" value="Ten Cent" />
                 <input class="coinBtn" type="button" id="twentyCentCoin" value="Twenty Cent" />
                 <input class="coinBtn" type="button" id="fiftyCentCoin" value="Fifty Cent" />
                 <input class="coinBtn" type="button" id="oneEuroCoin" value="One Euro" />
                 <br />
-                Purchase a Product:
+                <div class="col-6">&nbsp;</div>
+            </div>
+            <div class="col-6">
+                <h2>Purchase a Product</h2>
+            </div>
+            <div class="col-6">
                 <input class="productBtn" type="button" id="teaProduct" value="Tea" />
                 <input class="productBtn" type="button" id="espressoProduct" value="Espresso" />
                 <input class="productBtn" type="button" id="juiceProduct" value="Juice" />
                 <input class="productBtn" type="button" id="chickenSoupProduct" value="Chicken soup" />
+                <div class="col-6">&nbsp;</div>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <textarea  id="vendingMachineDisplay"></textarea>
+                <h2>Vending Machine Display</h2>
+            </div>
+            <div class="col-6">
+                <textarea readonly id="vendingMachineDisplay" style="width: 100%; height: 100%; resize: none;"></textarea>
+                <div class="col-6">&nbsp;</div>
             </div>
         </div>
     </div>
