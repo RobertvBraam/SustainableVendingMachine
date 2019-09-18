@@ -1,24 +1,35 @@
 # Welcome to Sustainable Vending Machine
+
 ## Initial data
+
 Vending machine contains the following products:
 -	Tea (1.30 eur), 10 portions
 -	Espresso (1.80 eur), 20 portions
 -	Juice  (1.80 eur), 20 portions
 -	Chicken soup (1.80 eur), 15 portions
+
 At the start the vending machine wallet contains the following coins (for exchange):
 -	10 cent, 100 coins
 -	20 cent, 100 coins
 -	50 cent, 100 coins
 -	1 euro, 100 coins
+
 The customer has an unlimited supply of coins.
+
 ## The requirements
+
 Accept coins: Customer should be able to insert coins to the vending machine.
+
 Return coins: Customer should be able to take the back the inserted coins in case customer decides to cancel his purchase.
+
 Sell a product: Customer should be able to buy a product:
 -	If the product price is less than the deposited amount, Vending machine should show a message “Thank you” and return the difference between the inserted amount and the price using the smallest number of coins possible.
 -	If the product price is higher than the amount inserted, Vending machine should show a message “Insufficient amount”
+
 UI: The amount and type of coins returned should be shown by the UI.
+
 ## Additional questions
+
 What to do when:
 -	Products are out of stock? (show product is out of stock my making the button unavailable)
 -	Coins are out of stock? (Show warning sign “Vending machine does not return any change”)
@@ -26,6 +37,8 @@ What to do when:
 -	The amount of coins is equal to the price for the requested product? (Show “Thank you” and “Enjoy your drink”)
 -	Someone inserts a 5 cent or 2 euro coin? (Create label that states “5 cent and 2 euro coins are not allowed” and refuse these type of coins if inserted with message “Vending machine does not allow 5 cent and 2 euro coins”)
 -	The vending machine needs maintenance? (These and any maintenance related use cases are out of scope of this assignment)
+
 ## Setup
+
 UI: ASP.NET Core 2.2 + SignalR
 Backend: .netstandard 2.0
