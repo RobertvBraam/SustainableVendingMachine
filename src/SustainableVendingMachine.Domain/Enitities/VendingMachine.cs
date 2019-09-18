@@ -64,6 +64,8 @@ namespace SustainableVendingMachine.Domain.Enitities
                 }
             }
 
+            _currentPurchase.Clear();
+
             return result;
         }
 
