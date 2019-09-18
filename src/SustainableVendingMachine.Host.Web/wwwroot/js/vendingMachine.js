@@ -15,6 +15,9 @@ for (let product of productElements) {
     AddProductClickEvent(product);
 }
 
+DisableElement(document.getElementById("cancelPayment"));
+AddCancelClickEvent(document.getElementById("cancelPayment"));
+
 connection.start().then(function () {
     for (let coin of coinElements) {
         EnableElement(coin);
@@ -22,6 +25,7 @@ connection.start().then(function () {
     for (let product of productElements) {
         EnableElement(product);
     }
+    EnableElement(document.getElementById("cancelPayment"));
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -47,6 +51,17 @@ function AddProductClickEvent(element) {
         var coinId = event.target.id;
         connection
             .invoke("ReceiveSelectedProduct", coinId)
+            .catch(function (err) {
+                return console.error(err.toString());
+            });
+        event.preventDefault();
+    });
+} 
+
+function AddCancelClickEvent(element) {
+    element.addEventListener("click", function (event) {
+        connection
+            .invoke("ReceiveCancelPurchase")
             .catch(function (err) {
                 return console.error(err.toString());
             });

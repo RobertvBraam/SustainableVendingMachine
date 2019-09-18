@@ -78,5 +78,12 @@ namespace SustainableVendingMachine.Host.Web.Hubs
 
             await SendVendingMachineMessage(result.Message + string.Join(',', result.CoinsReturned));
         }
+
+        public async Task ReceiveCancelPurchase()
+        {
+            var result = _useCase.CancelPurchase();
+
+            await SendVendingMachineMessage(result.Message + string.Join(',', result.CoinsReturned));
+        }
     }
 }
