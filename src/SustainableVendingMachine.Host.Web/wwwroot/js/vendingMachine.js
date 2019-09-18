@@ -12,6 +12,7 @@ var productElements = document.getElementsByClassName("productBtn");
 
 for (let product of productElements) {
     DisableElement(product);
+    AddProductClickEvent(product);
 }
 
 connection.start().then(function () {
@@ -34,6 +35,18 @@ function AddCoinClickEvent(element) {
         var coinId = event.target.id;
         connection
             .invoke("ReceiveInsertedCoin", coinId)
+            .catch(function (err) {
+                return console.error(err.toString());
+            });
+        event.preventDefault();
+    });
+}
+
+function AddProductClickEvent(element) {
+    element.addEventListener("click", function (event) {
+        var coinId = event.target.id;
+        connection
+            .invoke("ReceiveSelectedProduct", coinId)
             .catch(function (err) {
                 return console.error(err.toString());
             });

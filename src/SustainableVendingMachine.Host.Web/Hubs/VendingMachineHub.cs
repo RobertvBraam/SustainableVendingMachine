@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SustainableVendingMachine.Domain.Enitities;
+using SustainableVendingMachine.Domain.Enitities.Products;
 using SustainableVendingMachine.Domain.UseCases;
 
 namespace SustainableVendingMachine.Host.Web.Hubs
@@ -48,6 +49,34 @@ namespace SustainableVendingMachine.Host.Web.Hubs
             var result = _useCase.InsertCoin(coinToBeInserted);
 
             await SendVendingMachineMessage(result.Message + result.CurrentAmount);
+        }
+
+        public async Task ReceiveSelectedProduct(string productId)
+        {
+            Product productSelected;
+
+            switch (productId)
+            {
+                case "teaProduct":
+                    productSelected = new TeaProduct();
+                    break;
+                case "espressoProduct":
+                    productSelected = new EspressoProduct();
+                    break;
+                case "juiceProduct":
+                    productSelected = new JuiceProduct();
+                    break;
+                case "chickenSoupProduct":
+                    productSelected = new ChickenSoupProduct();
+                    break;
+                default:
+                    await SendVendingMachineMessage("Something went Wrong please try again!");
+                    throw new Exception();
+            }
+
+            var result = _useCase.PurchaseProduct(productSelected);
+
+            await SendVendingMachineMessage(result.Message + string.Join(',', result.CoinsReturned));
         }
     }
 }
