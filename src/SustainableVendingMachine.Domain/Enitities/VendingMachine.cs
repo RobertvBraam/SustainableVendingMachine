@@ -67,18 +67,11 @@ namespace SustainableVendingMachine.Domain.Enitities
             return result;
         }
 
-        public ProductSlot CheckProductAvailability(Product productToCheck)
+        public bool CheckProductAvailability(Product productToCheck)
         {
-            var productAvailable = _inventory.SingleOrDefault(product => product.Name == productToCheck.Name);
+            var productAvailable = _inventory.Exists(product => product.Name == productToCheck.Name);
 
-            if (productAvailable is null)
-            {
-                return new ProductSlotUnavailable(productToCheck);
-            }
-
-            productAvailable.Amount--;
-
-            return new ProductSlot(productToCheck);
+            return productAvailable;
         }
 
         public bool CheckSufficientCoinsToReturn(decimal productPrice)
@@ -86,9 +79,14 @@ namespace SustainableVendingMachine.Domain.Enitities
             var coinsAvailable = DeepCopyOrderedPurse();
             var amountToReturn = GetAmount() - productPrice;
 
-            (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
+            if (amountToReturn > 0)
+            {
+                (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
 
-            return result.leftoverMoney == 0.00m;
+                return result.leftoverMoney == 0.00m;
+            }
+
+            return true;
         }
 
         public void ExcecutePayment(decimal productPrice)

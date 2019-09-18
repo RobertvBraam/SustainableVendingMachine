@@ -30,18 +30,25 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public PurchaseProductResult PurchaseProduct(Product product)
         {
-            var availableProduct = _vendingMachine.CheckProductAvailability(product);
+            var amount = _vendingMachine.GetAmount();
 
-            if (availableProduct.Amount == 0)
+            if (amount - product.Price <= 0)
+            {
+                return new PurchaseProductResult($"Not enough coins to buy product: {product}", product);
+            }
+
+            var productAvailable = _vendingMachine.CheckProductAvailability(product);
+
+            if (!productAvailable)
             {
                 return new PurchaseProductResult($"Product not available: {product}", product);
             }
 
-            var suffienctCoins = _vendingMachine.CheckSufficientCoinsToReturn(availableProduct.Price);
+            var suffienctCoins = _vendingMachine.CheckSufficientCoinsToReturn(product.Price);
 
             if (suffienctCoins)
             {
-                _vendingMachine.ExcecutePayment(availableProduct.Price);
+                _vendingMachine.ExcecutePayment(product.Price);
                 
                 var coinsReturned = _vendingMachine.ReturnCoinsFromPayment();
 
