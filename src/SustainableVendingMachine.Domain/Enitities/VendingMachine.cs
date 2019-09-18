@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SustainableVendingMachine.Domain.Enitities.Products;
 
 namespace SustainableVendingMachine.Domain.Enitities
 {
@@ -12,7 +13,7 @@ namespace SustainableVendingMachine.Domain.Enitities
         public VendingMachine(List<ProductSlot> inventory, List<CoinSlot> purse)
         {
             _inventory = inventory;
-            _purse = purse.OrderByDescending(coin => coin.Amount).ToList();
+            _purse = purse;
         }
         
         public bool InsertCoin(Coin coin)
@@ -68,7 +69,7 @@ namespace SustainableVendingMachine.Domain.Enitities
 
         public ProductSlot CheckProductAvailability(Product productToCheck)
         {
-            var productAvailable = _inventory.SingleOrDefault(product => product.Product == productToCheck);
+            var productAvailable = _inventory.SingleOrDefault(product => product.Name == productToCheck.Name);
 
             if (productAvailable is null)
             {
@@ -82,17 +83,17 @@ namespace SustainableVendingMachine.Domain.Enitities
 
         public bool CheckSufficientCoinsToReturn(decimal productPrice)
         {
-            var coinsAvailable = DeepCopyPurse();
+            var coinsAvailable = DeepCopyOrderedPurse();
             var amountToReturn = GetAmount() - productPrice;
 
             (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
 
-            return result.leftoverMoney == 0;
+            return result.leftoverMoney == 0.00m;
         }
 
         public void ExcecutePayment(decimal productPrice)
         {
-            var coinsAvailable = DeepCopyPurse();
+            var coinsAvailable = DeepCopyOrderedPurse();
             var amountToReturn = GetAmount() - productPrice;
 
             (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
@@ -126,7 +127,7 @@ namespace SustainableVendingMachine.Domain.Enitities
                 return (coinsToReturn, amountToReturn);
             }
 
-            for (var i = 0; i < coinSlot.Amount; i++)
+            while (0 < coinSlot.Amount)
             {
                 if (amountToReturn - coinSlot.Value >= 0)
                 {
@@ -136,16 +137,22 @@ namespace SustainableVendingMachine.Domain.Enitities
                 }
                 else
                 {
-                    coinsAvailable.RemoveAt(0);
-                    var result = calculateCoinsReturned(coinsAvailable.ToList(), amountToReturn);
-                    coinsToReturn.AddRange(result.coinsToReturn);
+                    break;
                 }
+            }
+
+            if (amountToReturn > 0)
+            {
+                coinsAvailable.RemoveAt(0);
+                var result = calculateCoinsReturned(coinsAvailable.ToList(), amountToReturn);
+                coinsToReturn.AddRange(result.coinsToReturn);
+                amountToReturn = result.leftoverMoney;
             }
 
             return (coinsToReturn, amountToReturn);
         }
 
         private decimal ConvertCoinToEuros(Coin coin) => (int)coin / 100m;
-        private List<CoinSlot> DeepCopyPurse() => _purse.ConvertAll(slot => new CoinSlot(slot.Coin, slot.Amount));
+        private List<CoinSlot> DeepCopyOrderedPurse() => _purse.ConvertAll(slot => new CoinSlot(slot.Coin, slot.Amount)).OrderByDescending(coin => coin.Value).ToList();
     }
 }

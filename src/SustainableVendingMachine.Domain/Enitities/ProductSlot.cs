@@ -1,15 +1,18 @@
-﻿namespace SustainableVendingMachine.Domain.Enitities
+﻿using SustainableVendingMachine.Domain.Enitities.Products;
+
+namespace SustainableVendingMachine.Domain.Enitities
 {
     public class ProductSlot
     {
         public ProductSlot(Product product, int amount = 1)
         {
-            Product = product;
+            Name = product.Name;
+            Price = product.Price;
             Amount = amount;
         }
 
-        public Product Product { get; }
+        public string Name { get; }
         public int Amount { get; set; }
-        public decimal Price => (int) Product / 100m;
+        public decimal Price { get; }
     }
 }

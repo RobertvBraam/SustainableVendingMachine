@@ -1,4 +1,6 @@
-﻿namespace SustainableVendingMachine.Domain.Enitities
+﻿using SustainableVendingMachine.Domain.Enitities.Products;
+
+namespace SustainableVendingMachine.Domain.Enitities
 {
     public class ProductSlotUnavailable : ProductSlot
     {
