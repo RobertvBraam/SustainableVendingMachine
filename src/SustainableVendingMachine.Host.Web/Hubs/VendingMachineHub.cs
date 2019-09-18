@@ -48,7 +48,7 @@ namespace SustainableVendingMachine.Host.Web.Hubs
 
             var result = _useCase.InsertCoin(coinToBeInserted);
 
-            await SendVendingMachineMessage(result.Message + result.CurrentAmount);
+            await SendVendingMachineMessage($"{result.Message} \r\n Amount of money: {result.CurrentAmount}");
         }
 
         public async Task ReceiveSelectedProduct(string productId)
@@ -76,14 +76,14 @@ namespace SustainableVendingMachine.Host.Web.Hubs
 
             var result = _useCase.PurchaseProduct(productSelected);
 
-            await SendVendingMachineMessage(result.Message + string.Join(',', result.CoinsReturned));
+            await SendVendingMachineMessage($"{result.Message} \r\n Coins to return: {string.Join(',', result.CoinsReturned)}");
         }
 
         public async Task ReceiveCancelPurchase()
         {
             var result = _useCase.CancelPurchase();
 
-            await SendVendingMachineMessage(result.Message + string.Join(',', result.CoinsReturned));
+            await SendVendingMachineMessage($"{result.Message} \r\n  Coins to return: {string.Join(',', result.CoinsReturned)}");
         }
     }
 }

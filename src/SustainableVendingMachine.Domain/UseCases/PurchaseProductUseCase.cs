@@ -34,7 +34,7 @@ namespace SustainableVendingMachine.Domain.UseCases
 
             if (amount - product.Price <= 0)
             {
-                return new PurchaseProductResult($"Not enough coins to buy product: {product}", product);
+                return new PurchaseProductResult($"Not enough coins to buy product: {product.Name}", product);
             }
 
             var productAvailable = _vendingMachine.CheckProductAvailability(product);
@@ -52,10 +52,10 @@ namespace SustainableVendingMachine.Domain.UseCases
                 
                 var coinsReturned = _vendingMachine.ReturnCoinsFromPayment();
 
-                return new PurchaseProductResult($"Purchased product: {product}", product, coinsReturned);
+                return new PurchaseProductResult($"Purchased product: {product.Name}", product, coinsReturned);
             }
 
-            return new PurchaseProductResult($"Insufficient coins for product: {product}", product);
+            return new PurchaseProductResult($"Insufficient coins for product: {product.Name}", product);
         }
     }
 }
