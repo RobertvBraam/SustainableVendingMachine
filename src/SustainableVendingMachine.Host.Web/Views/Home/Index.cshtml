@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Sustainable Vending Machine";
 }
 
 <div class="text-center">
@@ -10,21 +10,22 @@
         <div class="row">
             <div class="col-6">&nbsp;</div>
             <div class="col-6">
-                Throw in a coin <input type="text" id="customerInput" />
+                Throw in a Coin:
+                <input class="coinBtn" type="button" id="tenCentCoin" value="Ten Cent" />
+                <input class="coinBtn" type="button" id="twentyCentCoin" value="Twenty Cent" />
+                <input class="coinBtn" type="button" id="fiftyCentCoin" value="Fifty Cent" />
+                <input class="coinBtn" type="button" id="oneEuroCoin" value="One Euro" />
                 <br />
-                Message...<input type="text" id="messageInput" />
-                <input type="button" id="sendButton" value="Send Message" />
+                Purchase a Product:
+                <input class="productBtn" type="button" id="teaProduct" value="Tea" />
+                <input class="productBtn" type="button" id="espressoProduct" value="Espresso" />
+                <input class="productBtn" type="button" id="juiceProduct" value="Juice" />
+                <input class="productBtn" type="button" id="chickenSoupProduct" value="Chicken soup" />
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">&nbsp;</div>
             <div class="col-6">
-                <ul id="messagesList"></ul>
+                <textarea  id="vendingMachineDisplay"></textarea>
             </div>
         </div>
     </div>

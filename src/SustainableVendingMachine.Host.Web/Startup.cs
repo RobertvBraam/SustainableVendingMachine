@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SustainableVendingMachine.Domain.Enitities;
+using SustainableVendingMachine.Domain.UseCases;
 using SustainableVendingMachine.Host.Web.Hubs;
 
 namespace SustainableVendingMachine.Host.Web
@@ -22,12 +24,10 @@ namespace SustainableVendingMachine.Host.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -35,9 +35,10 @@ namespace SustainableVendingMachine.Host.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
+            services.AddScoped<PurchaseProductUseCase>();
+            services.AddSingleton(new VendingMachine(new List<ProductSlot>(), new List<CoinSlot>()));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -47,7 +48,6 @@ namespace SustainableVendingMachine.Host.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -56,7 +56,7 @@ namespace SustainableVendingMachine.Host.Web
             app.UseCookiePolicy();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<VendingMachineHub>("/vendingMachineHub");
+                routes.MapHub<VendingMachineHub>("/VendingMachine");
             });
             app.UseMvc(routes =>
             {
