@@ -104,6 +104,12 @@ namespace SustainableVendingMachine.Domain.Entities
             return result.coinsToReturn;
         }
 
+        /// <summary>
+        /// The first version of calculating the coins returned, but this was less efficient and did not leverage the CoinSlot.
+        /// </summary>
+        /// <param name="coinsAvailable"></param>
+        /// <param name="amountToReturn"></param>
+        /// <returns></returns>
         private (List<Coin> coinsToReturn, decimal leftoverMoney) calculateCoinsReturned(List<CoinSlot> coinsAvailable, decimal amountToReturn)
         {
             var coinsToReturn = new List<Coin>();
@@ -139,6 +145,12 @@ namespace SustainableVendingMachine.Domain.Entities
             return (coinsToReturn, amountToReturn);
         }
 
+        /// <summary>
+        /// The second version of calculating the coins returned, it calculates what amount of coins that need to be returned.
+        /// </summary>
+        /// <param name="coinsAvailable"></param>
+        /// <param name="amountToReturn"></param>
+        /// <returns></returns>
         private (List<CoinSlot> coinsToReturn, decimal leftoverMoney) calculateCoinsReturnedV2(List<CoinSlot> coinsAvailable, decimal amountToReturn)
         {
             var coinsToReturn = new List<CoinSlot>();
@@ -174,6 +186,10 @@ namespace SustainableVendingMachine.Domain.Entities
             return (coinsToReturn, amountToReturn);
         }
 
+        /// <summary>
+        /// Creates a deep copy to make sure there is no reference to the objects withing the purse.
+        /// </summary>
+        /// <returns>Ordered list of CoinSlots</returns>
         private List<CoinSlot> DeepCopyOrderedPurse() => _purse.ConvertAll(slot => new CoinSlot(slot.Coin, slot.Amount)).OrderByDescending(coin => coin.Value).ToList();
     }
 }
