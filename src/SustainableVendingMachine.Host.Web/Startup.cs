@@ -40,10 +40,10 @@ namespace SustainableVendingMachine.Host.Web
 
             var inventory = new List<ProductSlot>
             {
-                new ProductSlot(new TeaProduct(), 10),
-                new ProductSlot(new EspressoProduct(), 20),
-                new ProductSlot(new JuiceProduct(), 20),
-                new ProductSlot(new ChickenSoupProduct(), 15)
+                new ProductSlot(Product.Tea, 10),
+                new ProductSlot(Product.Espresso, 20),
+                new ProductSlot(Product.Juice, 20),
+                new ProductSlot(Product.ChickenSoup, 15)
             };
             var purse = new List<CoinSlot>
             {

@@ -58,16 +58,16 @@ namespace SustainableVendingMachine.Host.Web.Hubs
             switch (productId)
             {
                 case "teaProduct":
-                    productSelected = new TeaProduct();
+                    productSelected = Product.Tea;
                     break;
                 case "espressoProduct":
-                    productSelected = new EspressoProduct();
+                    productSelected = Product.Espresso;
                     break;
                 case "juiceProduct":
-                    productSelected = new JuiceProduct();
+                    productSelected = Product.Juice;
                     break;
                 case "chickenSoupProduct":
-                    productSelected = new ChickenSoupProduct();
+                    productSelected = Product.ChickenSoup;
                     break;
                 default:
                     await SendVendingMachineMessage("Something went Wrong please try again!");

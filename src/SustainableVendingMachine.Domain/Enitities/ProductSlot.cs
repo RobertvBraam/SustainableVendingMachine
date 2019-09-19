@@ -1,6 +1,4 @@
-﻿using SustainableVendingMachine.Domain.Enitities.Products;
-
-namespace SustainableVendingMachine.Domain.Enitities
+﻿namespace SustainableVendingMachine.Domain.Enitities
 {
     public class ProductSlot
     {

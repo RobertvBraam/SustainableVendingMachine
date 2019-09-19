@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using SustainableVendingMachine.Domain.Enitities;
-using SustainableVendingMachine.Domain.Enitities.Products;
 using SustainableVendingMachine.Domain.UseCases;
 using Xunit;
 
@@ -76,8 +75,8 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var coin = Coin.OneEuro;
-            var product = new ChickenSoupProduct();
-            var coinReturned = new List<Coin> { Coin.TwentyCent, Coin.FiftyCent };
+            var product = Product.ChickenSoup;
+            var coinReturned = new List<Coin> { Coin.TwentyCent };
             var productSlots = new List<ProductSlot>
             {
                 new ProductSlot(product)
@@ -106,7 +105,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var coin = Coin.OneEuro;
-            var product = new JuiceProduct();
+            var product = Product.Tea;
             var coinReturned = new List<Coin>
             {
                 Coin.TwentyCent,
@@ -142,7 +141,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var coin = Coin.OneEuro;
-            var product = new EspressoProduct();
+            var product = Product.Espresso;
             var productSlots = new List<ProductSlot>
             {
                 new ProductSlot(product)
@@ -168,7 +167,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var coin = Coin.OneEuro;
-            var product = new TeaProduct();
+            var product = Product.Tea;
             var productSlots = new List<ProductSlot>();
             var purse = new List<CoinSlot>
             {
