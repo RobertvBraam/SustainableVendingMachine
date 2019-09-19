@@ -1,9 +1,13 @@
-﻿namespace SustainableVendingMachine.Domain.Entities
+﻿using SustainableVendingMachine.Domain.Helpers;
+
+namespace SustainableVendingMachine.Domain.Entities
 {
     public class CoinSlot
     {
         public CoinSlot(Coin coin, int amount = 1)
         {
+            Guard.AgainstNull(coin, nameof(coin));
+
             Coin = coin;
             Amount = amount;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SustainableVendingMachine.Domain.Helpers;
 
 namespace SustainableVendingMachine.Domain.Entities
 {
@@ -11,6 +12,9 @@ namespace SustainableVendingMachine.Domain.Entities
 
         public VendingMachine(List<ProductSlot> inventory, List<CoinSlot> purse)
         {
+            Guard.AgainstNull(inventory, nameof(inventory));
+            Guard.AgainstNull(purse, nameof(purse));
+
             _inventory = inventory;
             _purse = purse;
         }

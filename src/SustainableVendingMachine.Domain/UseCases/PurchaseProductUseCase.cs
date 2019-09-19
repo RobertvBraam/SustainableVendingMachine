@@ -1,4 +1,5 @@
 ﻿using SustainableVendingMachine.Domain.Entities;
+using SustainableVendingMachine.Domain.Helpers;
 using SustainableVendingMachine.Domain.UseCases.Results;
 
 namespace SustainableVendingMachine.Domain.UseCases
@@ -9,11 +10,15 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public PurchaseProductUseCase(VendingMachine vendingMachine)
         {
+            Guard.AgainstNull(vendingMachine, nameof(vendingMachine));
+
             _vendingMachine = vendingMachine;
         }
 
         public InsertCoinResult InsertCoin(Coin coin)
         {
+            Guard.AgainstNull(coin, nameof(coin));
+
             var coinInsertionSuccessful = _vendingMachine.InsertCoin(coin);
             var currentAmount = _vendingMachine.GetAmount();
 
@@ -29,6 +34,8 @@ namespace SustainableVendingMachine.Domain.UseCases
 
         public PurchaseProductResult PurchaseProduct(Product product)
         {
+            Guard.AgainstNull(product, nameof(product));
+
             var amount = _vendingMachine.GetAmount();
 
             if (amount - product.Price <= 0)
