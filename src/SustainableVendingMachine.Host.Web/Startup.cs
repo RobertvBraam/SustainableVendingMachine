@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SustainableVendingMachine.Domain.Enitities;
+using SustainableVendingMachine.Domain.Entities;
 using SustainableVendingMachine.Domain.UseCases;
 using SustainableVendingMachine.Host.Web.Hubs;
 

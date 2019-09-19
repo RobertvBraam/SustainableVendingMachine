@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SustainableVendingMachine.Domain.Enitities
+namespace SustainableVendingMachine.Domain.Entities
 {
     public class Coin : IEquatable<Coin>
     {

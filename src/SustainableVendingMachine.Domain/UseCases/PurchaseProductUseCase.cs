@@ -1,4 +1,4 @@
-﻿using SustainableVendingMachine.Domain.Enitities;
+﻿using SustainableVendingMachine.Domain.Entities;
 using SustainableVendingMachine.Domain.UseCases.Results;
 
 namespace SustainableVendingMachine.Domain.UseCases

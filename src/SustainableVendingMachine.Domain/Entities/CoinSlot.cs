@@ -1,4 +1,4 @@
-﻿namespace SustainableVendingMachine.Domain.Enitities
+﻿namespace SustainableVendingMachine.Domain.Entities
 {
     public class CoinSlot
     {

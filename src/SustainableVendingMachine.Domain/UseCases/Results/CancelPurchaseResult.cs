@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SustainableVendingMachine.Domain.Enitities;
+using SustainableVendingMachine.Domain.Entities;
 
 namespace SustainableVendingMachine.Domain.UseCases.Results
 {

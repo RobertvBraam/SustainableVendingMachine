@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SustainableVendingMachine.Domain.Enitities
+namespace SustainableVendingMachine.Domain.Entities
 {
     public class VendingMachine
     {

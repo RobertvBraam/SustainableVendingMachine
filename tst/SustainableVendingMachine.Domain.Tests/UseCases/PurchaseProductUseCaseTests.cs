@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using SustainableVendingMachine.Domain.Enitities;
+using SustainableVendingMachine.Domain.Entities;
 using SustainableVendingMachine.Domain.UseCases;
 using Xunit;
 
