@@ -22,7 +22,7 @@ namespace SustainableVendingMachine.Domain.UseCases
             var coinInsertionSuccessful = _vendingMachine.InsertCoin(coin);
             var currentAmount = _vendingMachine.GetAmount();
 
-            return new InsertCoinResult($"Coin processed in the payment: {coin}", currentAmount, coinInsertionSuccessful);
+            return new InsertCoinResult($"Coin added: €{(decimal)coin}", currentAmount, coinInsertionSuccessful);
         }
 
         public CancelPurchaseResult CancelPurchase()
@@ -40,7 +40,7 @@ namespace SustainableVendingMachine.Domain.UseCases
 
             if (amountOfMoney < product.Price)
             {
-                return new PurchaseProductResult($"Not enough coins to buy product: {product.Name}", product);
+                return new PurchaseProductResult($"Not enough money to buy product: {product.Name} -> €{product.Price}", product);
             }
 
             var productAvailable = _vendingMachine.CheckProductAvailability(product);
@@ -59,7 +59,7 @@ namespace SustainableVendingMachine.Domain.UseCases
                 return new PurchaseProductResult($"Purchased product: {product.Name}", product, coinsReturned);
             }
 
-            return new PurchaseProductResult($"Insufficient coins for product: {product.Name}", product);
+            return new PurchaseProductResult($"Insufficient in store to return for product: {product.Name}", product);
         }
     }
 }

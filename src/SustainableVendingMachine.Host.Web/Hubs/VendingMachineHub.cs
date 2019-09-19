@@ -41,13 +41,26 @@ namespace SustainableVendingMachine.Host.Web.Hubs
                     coinToBeInserted = Coin.OneEuro;
                     break;
                 default:
-                    await SendVendingMachineMessage("Something went Wrong please try again!");
-                    throw new Exception();
+                    await SendVendingMachineMessage("Coin not found, please try again!");
+                    throw new Exception($"Please insert valid coinId, actual: {coinId}");
             }
 
             var result = _useCase.InsertCoin(coinToBeInserted);
 
-            await SendVendingMachineMessage($"{result.Message} \r\n Amount of money: {result.CurrentAmount}");
+            string message;
+
+            if (result.HasFailed)
+            {
+                message = $"{result.Message} failed, because money can't exceed above €2,00 \r\n" +
+                          $"Amount of money: €{result.CurrentAmount}";
+            }
+            else
+            {
+                message = $"{result.Message} \r\n" +
+                          $"Amount of money: {result.CurrentAmount}";
+            }
+
+            await SendVendingMachineMessage(message);
         }
 
         public async Task ReceiveSelectedProduct(string productId)
@@ -69,20 +82,46 @@ namespace SustainableVendingMachine.Host.Web.Hubs
                     productSelected = Product.ChickenSoup;
                     break;
                 default:
-                    await SendVendingMachineMessage("Something went Wrong please try again!");
-                    throw new Exception();
+                    await SendVendingMachineMessage("Product not found, please try again!");
+                    throw new Exception($"Please insert valid productId, actual: {productId}");
             }
 
             var result = _useCase.PurchaseProduct(productSelected);
 
-            await SendVendingMachineMessage($"{result.Message} \r\n Coins to return: {string.Join(',', result.CoinsReturned)}");
+            string message;
+
+            if (result.CoinsReturned.Any())
+            {
+                message = $"{result.Message} \r\n" +
+                          $"Coins to return: {string.Join(", ", result.CoinsReturned.Select(slot => $"{slot.Amount} x €{slot.Value}"))}";
+            }
+            else
+            {
+                message = $"{result.Message} \r\n" +
+                          "Coins to return: None";
+            }
+
+            await SendVendingMachineMessage(message);
         }
 
         public async Task ReceiveCancelPurchase()
         {
             var result = _useCase.CancelPurchase();
 
-            await SendVendingMachineMessage($"{result.Message} \r\n  Coins to return: {string.Join(',', result.CoinsReturned)}");
+            string message;
+
+            if (result.CoinsReturned.Any())
+            {
+                message = $"{result.Message} \r\n" +
+                          $"Coins to return: {string.Join(", ", result.CoinsReturned.Select(slot => $"{slot.Amount} x €{slot.Value}"))}";
+            }
+            else
+            {
+                message = $"{result.Message} \r\n" +
+                          "Coins to return: None";
+            }
+
+            await SendVendingMachineMessage(message);
         }
     }
 }
