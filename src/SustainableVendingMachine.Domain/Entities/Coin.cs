@@ -6,13 +6,10 @@ namespace SustainableVendingMachine.Domain.Entities
     {
         private readonly decimal _value;
 
-        public static Coin Unknown => new Coin(0.00m);
-        public static Coin FiveCents => new Coin(0.05m);
         public static Coin TenCents => new Coin(0.10m);
         public static Coin TwentyCents => new Coin(0.20m);
         public static Coin FiftyCents => new Coin(0.50m);
         public static Coin OneEuro => new Coin(1.00m);
-        public static Coin TwoEuros => new Coin(2.00m);
 
         private Coin(decimal value)
         {
