@@ -36,9 +36,9 @@ namespace SustainableVendingMachine.Domain.UseCases
         {
             Guard.AgainstNull(product, nameof(product));
 
-            var amount = _vendingMachine.GetAmount();
+            var amountOfMoney = _vendingMachine.GetAmount();
 
-            if (amount - product.Price <= 0)
+            if (amountOfMoney < product.Price)
             {
                 return new PurchaseProductResult($"Not enough coins to buy product: {product.Name}", product);
             }
