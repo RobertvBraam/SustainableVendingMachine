@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SustainableVendingMachine.Domain.Entities;
+using SustainableVendingMachine.Domain.Helpers;
 using SustainableVendingMachine.Domain.UseCases;
 
 namespace SustainableVendingMachine.Host.Web.Hubs
@@ -14,6 +14,8 @@ namespace SustainableVendingMachine.Host.Web.Hubs
 
         public VendingMachineHub(PurchaseProductUseCase useCase)
         {
+            Guard.AgainstNull(useCase, nameof(useCase));
+
             _useCase = useCase;
         }
 
