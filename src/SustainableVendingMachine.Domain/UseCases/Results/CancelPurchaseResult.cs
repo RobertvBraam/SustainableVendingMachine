@@ -5,9 +5,9 @@ namespace SustainableVendingMachine.Domain.UseCases.Results
 {
     public class CancelPurchaseResult : Result
     {
-        public List<Coin> CoinsReturned { get; }
+        public List<CoinSlot> CoinsReturned { get; }
 
-        public CancelPurchaseResult(string message, List<Coin> coinsReturned, bool isSuccessful = true) : base(message, isSuccessful)
+        public CancelPurchaseResult(string message, List<CoinSlot> coinsReturned, bool isSuccessful = true) : base(message, isSuccessful)
         {
             CoinsReturned = coinsReturned;
         }

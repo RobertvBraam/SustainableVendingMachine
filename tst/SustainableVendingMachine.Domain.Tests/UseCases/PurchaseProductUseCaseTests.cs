@@ -15,9 +15,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             decimal expectedCurrentAmount = 0.50m;
-            var productSlots = new List<ProductSlot>();
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var coin = Coin.FiftyCents;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
@@ -34,9 +34,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             decimal expectedCurrentAmount = 1.00m;
-            var productSlots = new List<ProductSlot>();
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var coin = Coin.FiftyCents;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
@@ -54,9 +54,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             decimal expectedCurrentAmount = 2.00m;
-            var productSlots = new List<ProductSlot>();
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var coin = Coin.OneEuro;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
@@ -76,8 +76,11 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.OneEuro;
             var product = Product.ChickenSoup;
-            var coinReturned = new List<Coin> { Coin.TwentyCents };
-            var productSlots = new List<ProductSlot>
+            var coinReturned = new List<CoinSlot>
+            {
+                new CoinSlot(Coin.TwentyCents)
+            };
+            var inventory = new List<ProductSlot>
             {
                 new ProductSlot(product)
             };
@@ -86,7 +89,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
                 new CoinSlot(Coin.TwentyCents),
                 new CoinSlot(Coin.FiftyCents)
             };
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -106,23 +109,21 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.OneEuro;
             var product = Product.Tea;
-            var coinReturned = new List<Coin>
+            var coinReturned = new List<CoinSlot>
             {
-                Coin.TwentyCents,
-                Coin.TwentyCents,
-                Coin.TwentyCents,
-                Coin.TenCents
+                new CoinSlot(Coin.TwentyCents, 2),
+                new CoinSlot(Coin.TenCents, 3)
             };
-            var productSlots = new List<ProductSlot>
+            var inventory = new List<ProductSlot>
             {
                 new ProductSlot(product)
             };
             var purse = new List<CoinSlot>
             {
-                new CoinSlot(Coin.TwentyCents, 3),
-                new CoinSlot(Coin.TenCents)
+                new CoinSlot(Coin.TwentyCents, 2),
+                new CoinSlot(Coin.TenCents, 3)
             };
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -142,7 +143,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.OneEuro;
             var product = Product.Espresso;
-            var productSlots = new List<ProductSlot>
+            var inventory = new List<ProductSlot>
             {
                 new ProductSlot(product)
             };
@@ -150,7 +151,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             {
                 new CoinSlot(Coin.TwentyCents)
             };
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -168,12 +169,36 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.OneEuro;
             var product = Product.Tea;
-            var productSlots = new List<ProductSlot>();
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>
             {
                 new CoinSlot(Coin.TwentyCents)
             };
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
+            var sut = new PurchaseProductUseCase(vendingMachine);
+
+            //Act
+            sut.InsertCoin(coin);
+            sut.InsertCoin(coin);
+            var actual = sut.PurchaseProduct(product);
+
+            //Assert
+            actual.HasFailed.Should().BeTrue();
+            actual.ProductPurchased.Should().Be(product);
+        }
+
+        [Fact]
+        public void PurchaseProduct_When_NoCoinsInPurseTeaProductPurchased_Then_ReturnFailed()
+        {
+            //Arrange
+            var coin = Coin.OneEuro;
+            var product = Product.Tea;
+            var inventory = new List<ProductSlot>
+            {
+                new ProductSlot(product)
+            };
+            var purse = new List<CoinSlot>();
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -190,9 +215,9 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         public void CancelPurchase_When_PurchaseCanceled_Then_ReturnSuccess()
         {
             //Arrange
-            var productSlots = new List<ProductSlot>();
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -207,10 +232,13 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var coin = Coin.TwentyCents;
-            var coinsReturned = new List<Coin> { coin };
-            var productSlots = new List<ProductSlot>();
+            var coinsReturned = new List<CoinSlot>
+            {
+                new CoinSlot(Coin.TwentyCents)
+            };
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act
@@ -227,10 +255,13 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         {
             //Arrange
             var coin = Coin.TwentyCents;
-            var coinsReturned = new List<Coin> { coin, coin };
-            var productSlots = new List<ProductSlot>();
+            var coinsReturned = new List<CoinSlot>
+            {
+                new CoinSlot(Coin.TwentyCents, 2)
+            };
+            var inventory = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
-            var vendingMachine = new VendingMachine(productSlots, purse);
+            var vendingMachine = new VendingMachine(inventory, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
 
             //Act

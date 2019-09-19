@@ -6,9 +6,9 @@ namespace SustainableVendingMachine.Domain.UseCases.Results
     public class PurchaseProductResult : Result
     {
         public Product ProductPurchased { get; }
-        public List<Coin> CoinsReturned { get; }
+        public List<CoinSlot> CoinsReturned { get; }
 
-        public PurchaseProductResult(string message, Product productPurchased, List<Coin> coinsReturned, bool isSuccessful = true) : base(message, isSuccessful)
+        public PurchaseProductResult(string message, Product productPurchased, List<CoinSlot> coinsReturned, bool isSuccessful = true) : base(message, isSuccessful)
         {
             ProductPurchased = productPurchased;
             CoinsReturned = coinsReturned;
@@ -17,7 +17,7 @@ namespace SustainableVendingMachine.Domain.UseCases.Results
         public PurchaseProductResult(string message, Product productPurchased, bool isSuccessful = false) : base(message, isSuccessful)
         {
             ProductPurchased = productPurchased;
-            CoinsReturned = new List<Coin>();
+            CoinsReturned = new List<CoinSlot>();
         }
     }
 }

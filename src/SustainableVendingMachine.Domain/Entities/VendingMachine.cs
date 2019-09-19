@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SustainableVendingMachine.Domain.Helpers;
 
@@ -18,8 +19,8 @@ namespace SustainableVendingMachine.Domain.Entities
             _inventory = inventory;
             _purse = purse;
         }
-        
-        public bool InsertCoin(Coin coin)
+
+        internal bool InsertCoin(Coin coin)
         {
             var maximumAmountOfCoins = GetAmount() + coin;
 
@@ -28,7 +29,7 @@ namespace SustainableVendingMachine.Domain.Entities
                 return false;
             }
 
-            var existingSlot = _currentPurchase.SingleOrDefault(slot => slot.Coin == coin);
+            var existingSlot = _currentPurchase.SingleOrDefault(slot => slot.Coin.Equals(coin));
 
             if (existingSlot is null)
             {
@@ -42,7 +43,7 @@ namespace SustainableVendingMachine.Domain.Entities
             return true;
         }
 
-        public decimal GetAmount()
+        internal decimal GetAmount()
         {
             decimal result = 0;
 
@@ -55,69 +56,52 @@ namespace SustainableVendingMachine.Domain.Entities
             return result;
         }
 
-        public List<Coin> ReturnCoinsFromPayment()
+        internal List<CoinSlot> ReturnCoinsFromPayment()
         {
-            var result = new List<Coin>();
+            var result = new List<CoinSlot>();
 
-            foreach (var insertedCoin in _currentPurchase)
-            {
-                for (int i = 0; i < insertedCoin.Amount; i++)
-                {
-                    result.Add(insertedCoin.Coin);
-                }
-            }
+            result.AddRange(_currentPurchase);
 
             _currentPurchase.Clear();
 
             return result;
         }
 
-        public bool CheckProductAvailability(Product productToCheck)
+        internal bool CheckProductAvailability(Product productToCheck)
         {
             var productAvailable = _inventory.Exists(product => product.Name == productToCheck.Name);
 
             return productAvailable;
         }
 
-        public bool CheckSufficientCoinsToReturn(decimal productPrice)
+        internal bool CheckSufficientCoinsToReturn(decimal productPrice)
         {
             var coinsAvailable = DeepCopyOrderedPurse();
             var amountToReturn = GetAmount() - productPrice;
 
-            if (amountToReturn > 0)
-            {
-                (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
+            (List<CoinSlot> coinsToReturn, decimal leftoverMoney) result =
+                calculateCoinsReturnedV2(coinsAvailable, amountToReturn);
 
-                return result.leftoverMoney == 0.00m;
-            }
-
-            return true;
+            return result.leftoverMoney == 0.00m;
         }
 
-        public void ExcecutePayment(decimal productPrice)
+        internal List<CoinSlot> ExcecutePayment(decimal productPrice)
         {
             var coinsAvailable = DeepCopyOrderedPurse();
             var amountToReturn = GetAmount() - productPrice;
 
-            (List<Coin> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturned(coinsAvailable, amountToReturn);
+            (List<CoinSlot> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturnedV2(coinsAvailable, amountToReturn);
 
             _currentPurchase.Clear();
 
             foreach (var coin in result.coinsToReturn)
             {
-                var coinSlot = _purse.Single(slot => slot.Coin == coin);
+                var coinSlot = _purse.Single(slot => slot.Coin.Equals(coin.Coin));
 
-                if (coinSlot.Amount == 1)
-                {
-                    _purse.Remove(coinSlot);
-                }
-                else
-                {
-                    coinSlot.Amount--;
-                }
-
-                InsertCoin(coinSlot.Coin);
+                coinSlot.Amount -= coin.Amount;
             }
+
+            return result.coinsToReturn;
         }
 
         private (List<Coin> coinsToReturn, decimal leftoverMoney) calculateCoinsReturned(List<CoinSlot> coinsAvailable, decimal amountToReturn)
@@ -152,6 +136,41 @@ namespace SustainableVendingMachine.Domain.Entities
                 amountToReturn = result.leftoverMoney;
             }
 
+            return (coinsToReturn, amountToReturn);
+        }
+
+        private (List<CoinSlot> coinsToReturn, decimal leftoverMoney) calculateCoinsReturnedV2(List<CoinSlot> coinsAvailable, decimal amountToReturn)
+        {
+            var coinsToReturn = new List<CoinSlot>();
+            
+            foreach (var coinSlot in coinsAvailable)
+            {
+                if (coinSlot.Value > amountToReturn)
+                {
+                    continue;
+                }
+
+                var amountOfMoneyNotAvailable = amountToReturn % coinSlot.Value;
+                var amountOfMoneyAvailable = amountToReturn - amountOfMoneyNotAvailable;
+                var amountOfCoinsNeeded = amountOfMoneyAvailable / coinSlot.Value;
+
+                if (coinSlot.Amount - (int)amountOfCoinsNeeded >= 0)
+                {
+                    coinsToReturn.Add(new CoinSlot(coinSlot.Coin, (int)amountOfCoinsNeeded));
+
+                    amountToReturn = amountOfMoneyNotAvailable;
+                }
+                else
+                {
+                    var amountOfCoinMissing = (int) amountOfCoinsNeeded - coinSlot.Amount;
+                    var amountOfMoneyMissing = amountOfCoinMissing * coinSlot.Value;
+
+                    coinsToReturn.Add(new CoinSlot(coinSlot.Coin, coinSlot.Amount));
+
+                    amountToReturn = amountOfMoneyNotAvailable + amountOfMoneyMissing;
+                }
+            }
+            
             return (coinsToReturn, amountToReturn);
         }
 
