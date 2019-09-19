@@ -17,7 +17,7 @@ namespace SustainableVendingMachine.Domain.Enitities
         
         public bool InsertCoin(Coin coin)
         {
-            var maximumAmountOfCoins = GetAmount() + ConvertCoinToEuros(coin);
+            var maximumAmountOfCoins = GetAmount() + coin;
 
             if (maximumAmountOfCoins > 2.00m)
             {
@@ -151,7 +151,6 @@ namespace SustainableVendingMachine.Domain.Enitities
             return (coinsToReturn, amountToReturn);
         }
 
-        private decimal ConvertCoinToEuros(Coin coin) => (int)coin / 100m;
         private List<CoinSlot> DeepCopyOrderedPurse() => _purse.ConvertAll(slot => new CoinSlot(slot.Coin, slot.Amount)).OrderByDescending(coin => coin.Value).ToList();
     }
 }

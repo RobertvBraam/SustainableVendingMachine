@@ -18,7 +18,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             var productSlots = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
             var vendingMachine = new VendingMachine(productSlots, purse);
-            var coin = Coin.FiftyCent;
+            var coin = Coin.FiftyCents;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
             //Act
@@ -37,7 +37,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             var productSlots = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
             var vendingMachine = new VendingMachine(productSlots, purse);
-            var coin = Coin.FiftyCent;
+            var coin = Coin.FiftyCents;
             var sut = new PurchaseProductUseCase(vendingMachine);
             
             //Act
@@ -76,15 +76,15 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             //Arrange
             var coin = Coin.OneEuro;
             var product = Product.ChickenSoup;
-            var coinReturned = new List<Coin> { Coin.TwentyCent };
+            var coinReturned = new List<Coin> { Coin.TwentyCents };
             var productSlots = new List<ProductSlot>
             {
                 new ProductSlot(product)
             };
             var purse = new List<CoinSlot>
             {
-                new CoinSlot(Coin.TwentyCent),
-                new CoinSlot(Coin.FiftyCent)
+                new CoinSlot(Coin.TwentyCents),
+                new CoinSlot(Coin.FiftyCents)
             };
             var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
@@ -108,10 +108,10 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             var product = Product.Tea;
             var coinReturned = new List<Coin>
             {
-                Coin.TwentyCent,
-                Coin.TwentyCent,
-                Coin.TwentyCent,
-                Coin.TenCent
+                Coin.TwentyCents,
+                Coin.TwentyCents,
+                Coin.TwentyCents,
+                Coin.TenCents
             };
             var productSlots = new List<ProductSlot>
             {
@@ -119,8 +119,8 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             };
             var purse = new List<CoinSlot>
             {
-                new CoinSlot(Coin.TwentyCent, 3),
-                new CoinSlot(Coin.TenCent)
+                new CoinSlot(Coin.TwentyCents, 3),
+                new CoinSlot(Coin.TenCents)
             };
             var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
@@ -148,7 +148,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             };
             var purse = new List<CoinSlot>
             {
-                new CoinSlot(Coin.TwentyCent)
+                new CoinSlot(Coin.TwentyCents)
             };
             var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
@@ -171,7 +171,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
             var productSlots = new List<ProductSlot>();
             var purse = new List<CoinSlot>
             {
-                new CoinSlot(Coin.TwentyCent)
+                new CoinSlot(Coin.TwentyCents)
             };
             var vendingMachine = new VendingMachine(productSlots, purse);
             var sut = new PurchaseProductUseCase(vendingMachine);
@@ -206,7 +206,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         public void CancelPurchase_When_TenCentCoinAddedAndPurchaseCanceled_Then_ReturnSuccess()
         {
             //Arrange
-            var coin = Coin.TwentyCent;
+            var coin = Coin.TwentyCents;
             var coinsReturned = new List<Coin> { coin };
             var productSlots = new List<ProductSlot>();
             var purse = new List<CoinSlot>();
@@ -226,7 +226,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
         public void CancelPurchase_When_TwoTenCentCoinsAddedAndPurchaseCanceled_Then_ReturnSuccess()
         {
             //Arrange
-            var coin = Coin.TwentyCent;
+            var coin = Coin.TwentyCents;
             var coinsReturned = new List<Coin> { coin, coin };
             var productSlots = new List<ProductSlot>();
             var purse = new List<CoinSlot>();

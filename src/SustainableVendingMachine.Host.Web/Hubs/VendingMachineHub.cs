@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SustainableVendingMachine.Domain.Enitities;
-using SustainableVendingMachine.Domain.Enitities.Products;
 using SustainableVendingMachine.Domain.UseCases;
 
 namespace SustainableVendingMachine.Host.Web.Hubs
@@ -30,13 +29,13 @@ namespace SustainableVendingMachine.Host.Web.Hubs
             switch (coinId)
             {
                 case "tenCentCoin":
-                    coinToBeInserted = Coin.TenCent;
+                    coinToBeInserted = Coin.TenCents;
                     break;
                 case "twentyCentCoin":
-                    coinToBeInserted = Coin.TwentyCent;
+                    coinToBeInserted = Coin.TwentyCents;
                     break;
                 case "fiftyCentCoin":
-                    coinToBeInserted = Coin.FiftyCent;
+                    coinToBeInserted = Coin.FiftyCents;
                     break;
                 case "oneEuroCoin":
                     coinToBeInserted = Coin.OneEuro;

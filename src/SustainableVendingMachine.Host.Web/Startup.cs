@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SustainableVendingMachine.Domain.Enitities;
-using SustainableVendingMachine.Domain.Enitities.Products;
 using SustainableVendingMachine.Domain.UseCases;
 using SustainableVendingMachine.Host.Web.Hubs;
 
@@ -47,9 +46,9 @@ namespace SustainableVendingMachine.Host.Web
             };
             var purse = new List<CoinSlot>
             {
-                new CoinSlot(Coin.TenCent, 100),
-                new CoinSlot(Coin.TwentyCent, 100),
-                new CoinSlot(Coin.FiftyCent, 100),
+                new CoinSlot(Coin.TenCents, 100),
+                new CoinSlot(Coin.TwentyCents, 100),
+                new CoinSlot(Coin.FiftyCents, 100),
                 new CoinSlot(Coin.OneEuro, 100)
             };
 

@@ -10,6 +10,6 @@
 
         public Coin Coin { get; }
         public int Amount { get; set; }
-        public decimal Value => (int) Coin / 100m;
+        public decimal Value => Coin;
     }
 }
