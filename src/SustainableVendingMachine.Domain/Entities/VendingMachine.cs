@@ -69,9 +69,9 @@ namespace SustainableVendingMachine.Domain.Entities
 
         internal bool CheckProductAvailability(Product productToCheck)
         {
-            var productAvailable = _inventory.Exists(product => product.Name == productToCheck.Name);
+            var productAvailable = _inventory.SingleOrDefault(product => product.Name == productToCheck.Name);
 
-            return productAvailable;
+            return productAvailable?.Amount != null && productAvailable.Amount > 0;
         }
 
         internal bool CheckSufficientCoinsToReturn(decimal productPrice)
@@ -85,10 +85,10 @@ namespace SustainableVendingMachine.Domain.Entities
             return result.leftoverMoney == 0.00m;
         }
 
-        internal List<CoinSlot> ExcecutePayment(decimal productPrice)
+        internal List<CoinSlot> ExcecutePayment(Product product)
         {
             var coinsAvailable = DeepCopyOrderedPurse();
-            var amountToReturn = GetAmount() - productPrice;
+            var amountToReturn = GetAmount() - product.Price;
 
             (List<CoinSlot> coinsToReturn, decimal leftoverMoney) result = calculateCoinsReturnedV2(coinsAvailable, amountToReturn);
 
@@ -101,7 +101,19 @@ namespace SustainableVendingMachine.Domain.Entities
                 coinSlot.Amount -= coin.Amount;
             }
 
+            RemoveProductFromInventory(product);
+
             return result.coinsToReturn;
+        }
+
+        private void RemoveProductFromInventory(Product productToRemove)
+        {
+            var productAvailable = _inventory.SingleOrDefault(product => product.Name == productToRemove.Name);
+
+            if (productAvailable != null)
+            {
+                productAvailable.Amount--;
+            }
         }
 
         /// <summary>

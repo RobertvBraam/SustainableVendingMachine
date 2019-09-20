@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using SustainableVendingMachine.Domain.Entities;
 using SustainableVendingMachine.Domain.Helpers;
 using SustainableVendingMachine.Domain.UseCases;
+using SustainableVendingMachine.Domain.UseCases.Results;
 
 namespace SustainableVendingMachine.Host.Web.Hubs
 {
@@ -22,6 +23,11 @@ namespace SustainableVendingMachine.Host.Web.Hubs
         public async Task SendVendingMachineMessage(string message)
         {
             await Clients.All.SendAsync("ReceiveVendingMachineDisplayMessage", message);
+        }
+
+        public async Task SendProductOutOfStock(string message)
+        {
+            await Clients.All.SendAsync("SendProductOutOfStockMessage", message);
         }
 
         public async Task ReceiveInsertedCoin(string coinId)
@@ -92,15 +98,19 @@ namespace SustainableVendingMachine.Host.Web.Hubs
 
             string message;
 
-            if (result.CoinsReturned.Any())
+            if (result.HasFailed)
             {
-                message = $"{result.Message} \r\n" +
-                          $"Coins to return: {string.Join(", ", result.CoinsReturned.Select(slot => $"{slot.Amount} x €{slot.Value}"))}";
+                message = $"{result.Message}";
+
+                if (result.PurchaseFailedReason == PurchaseFailedType.ProductOutOfStock)
+                {
+                    SendProductOutOfStock(result.ProductPurchased.Name);
+                }
             }
             else
             {
                 message = $"{result.Message} \r\n" +
-                          "Coins to return: None";
+                          $"Coins to return: {string.Join(", ", result.CoinsReturned.Select(slot => $"{slot.Amount} x €{slot.Value}"))}";
             }
 
             await SendVendingMachineMessage(message);

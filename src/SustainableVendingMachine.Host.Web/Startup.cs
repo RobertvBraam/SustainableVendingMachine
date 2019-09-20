@@ -39,7 +39,7 @@ namespace SustainableVendingMachine.Host.Web
 
             var inventory = new List<ProductSlot>
             {
-                new ProductSlot(Product.Tea, 10),
+                new ProductSlot(Product.Tea, 1),
                 new ProductSlot(Product.Espresso, 20),
                 new ProductSlot(Product.Juice, 20),
                 new ProductSlot(Product.ChickenSoup, 15)

@@ -34,6 +34,15 @@ connection.on("ReceiveVendingMachineDisplayMessage", function (message) {
     document.getElementById("vendingMachineDisplay").textContent = message;
 });
 
+connection.on("SendProductOutOfStockMessage", function (message) {
+    for (let product of productElements) {
+        if (product.id.toLowerCase().includes(message.toLowerCase())) {
+            product.value = "OUT OF STOCK";
+            product.disabled = true;
+        }
+    }
+});
+
 function AddCoinClickEvent(element) {
     element.addEventListener("click", function (event) {
         var coinId = event.target.id;

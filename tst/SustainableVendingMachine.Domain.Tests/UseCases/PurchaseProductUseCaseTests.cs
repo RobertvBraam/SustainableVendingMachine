@@ -4,6 +4,7 @@ using System.Text;
 using FluentAssertions;
 using SustainableVendingMachine.Domain.Entities;
 using SustainableVendingMachine.Domain.UseCases;
+using SustainableVendingMachine.Domain.UseCases.Results;
 using Xunit;
 
 namespace SustainableVendingMachine.Domain.Tests.UseCases
@@ -160,6 +161,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
 
             //Assert
             actual.HasFailed.Should().BeTrue();
+            actual.PurchaseFailedReason.Should().Be(PurchaseFailedType.InsufficientCoins);
             actual.ProductPurchased.Should().Be(product);
         }
 
@@ -184,6 +186,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
 
             //Assert
             actual.HasFailed.Should().BeTrue();
+            actual.PurchaseFailedReason.Should().Be(PurchaseFailedType.ProductOutOfStock);
             actual.ProductPurchased.Should().Be(product);
         }
 
@@ -208,6 +211,7 @@ namespace SustainableVendingMachine.Domain.Tests.UseCases
 
             //Assert
             actual.HasFailed.Should().BeTrue();
+            actual.PurchaseFailedReason.Should().Be(PurchaseFailedType.InsufficientCoinsToReturn);
             actual.ProductPurchased.Should().Be(product);
         }
 

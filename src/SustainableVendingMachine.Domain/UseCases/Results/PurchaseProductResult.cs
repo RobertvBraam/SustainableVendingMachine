@@ -7,17 +7,28 @@ namespace SustainableVendingMachine.Domain.UseCases.Results
     {
         public Product ProductPurchased { get; }
         public List<CoinSlot> CoinsReturned { get; }
+        public PurchaseFailedType PurchaseFailedReason { get; }
 
-        public PurchaseProductResult(string message, Product productPurchased, List<CoinSlot> coinsReturned, bool isSuccessful = true) : base(message, isSuccessful)
+        public PurchaseProductResult(string message, Product productPurchased, List<CoinSlot> coinsReturned) : base(message, true)
         {
             ProductPurchased = productPurchased;
             CoinsReturned = coinsReturned;
+            PurchaseFailedReason = PurchaseFailedType.Successful;
         }
         
-        public PurchaseProductResult(string message, Product productPurchased, bool isSuccessful = false) : base(message, isSuccessful)
+        public PurchaseProductResult(string message, Product productPurchased, PurchaseFailedType purchaseFailedReason) : base(message, false)
         {
             ProductPurchased = productPurchased;
+            PurchaseFailedReason = purchaseFailedReason;
             CoinsReturned = new List<CoinSlot>();
         }
+    }
+
+    public enum PurchaseFailedType
+    {
+        Successful,
+        ProductOutOfStock,
+        InsufficientCoinsToReturn,
+        InsufficientCoins
     }
 }
