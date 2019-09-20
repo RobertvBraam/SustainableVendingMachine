@@ -59,7 +59,7 @@ namespace SustainableVendingMachine.Host.Web.Hubs
 
             if (result.HasFailed)
             {
-                message = $"{result.Message} failed, because money can't exceed above €2,00 \r\n" +
+                message = $"{result.Message} failed, because amount of money can't exceed above €2,00 \r\n" +
                           $"Amount of money: €{result.CurrentAmount}";
             }
             else
