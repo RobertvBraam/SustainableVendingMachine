@@ -28,14 +28,14 @@ Sell a product: Customer should be able to buy a product:
 
 UI: The amount and type of coins returned should be shown by the UI.
 
-## Additional questions
+## Additional questions about requirements
 
 What to do when:
 -	Products are out of stock? (show product is out of stock my making the button unavailable)
 -	Coins are out of stock? (Show warning sign “Vending machine does not return any change”)
--	Someone is inserting hundreds of coins into the vending machine? (Limit the amount inserted to 2 euro’s in any type of coin and when reaching the limit then display message “Vending machine does not accept any more coins”)
--	The amount of coins is equal to the price for the requested product? (Show “Thank you” and “Enjoy your drink”)
--	Someone inserts a 5 cent or 2 euro coin? (Create label that states “5 cent and 2 euro coins are not allowed” and refuse these type of coins if inserted with message “Vending machine does not allow 5 cent and 2 euro coins”)
+-	Someone is inserting hundreds of coins into the vending machine? (Limit the amount inserted to 2 euro’s in any type of coin and when reaching the limit then display message “Coin added: €{Coin Amount} failed, because amount of money can't exceed above €2,00”)
+-	The amount of coins is equal to the price for the requested product? (Show “Thank you”)
+-	Someone inserts a invalid coin (5 cent or 2 euro)? (Refuse coin and show “Coin invalid please try again”)
 -	The vending machine needs maintenance? (These and any maintenance related use cases are out of scope of this assignment)
 
 ## Setup
